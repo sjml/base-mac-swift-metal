@@ -21,7 +21,7 @@ class ViewController: NSViewController {
         device = MTLCreateSystemDefaultDevice()
         mtkView.device = device
                 
-        let defaultLibrary = device.newDefaultLibrary()
+        let defaultLibrary = device.makeDefaultLibrary()
         let fragmentProgram = defaultLibrary!.makeFunction(name: "basic_fragment")
         let vertexProgram = defaultLibrary!.makeFunction(name: "basic_vertex")
         
@@ -43,13 +43,13 @@ class ViewController: NSViewController {
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
         
         let commandBuffer = commandQueue.makeCommandBuffer()
-        let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
-        renderEncoder.setRenderPipelineState(pipelineState)
+        let renderEncoder = commandBuffer!.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
+        renderEncoder!.setRenderPipelineState(pipelineState)
 
-        renderEncoder.endEncoding()
+        renderEncoder!.endEncoding()
         
-        commandBuffer.present(drawable)
-        commandBuffer.commit()
+        commandBuffer!.present(drawable)
+        commandBuffer!.commit()
     }
 }
 
